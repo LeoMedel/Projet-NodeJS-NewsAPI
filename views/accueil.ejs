@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title> <%=title%> </title>
+
+		<% include partials/head %>
+
+	</head>
+	
+	<body>
+	
+		<div>
+			<h1 class="display-3 text-center">News API avec Node JS </h1>
+			<div class="row">
+				<div class="col">
+
+				</div>
+				<div class="col">
+					<img id="news" src="./images/news.jpg" class="rounded mx-auto d-block" alt="Node.js">
+					<h4 class="text-center">Ecrivez-vous un Username</h4>
+					<form class="text-center" name="form1" method="GET" action="/index">
+						<div class="input-group mb-3">
+							<input type="text" name="username" value="" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon2">
+							<div class="input-group-append">
+								<button class="btn btn-outline-dark" type="submit">OK</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col">
+				</div>
+			</div>
+		</div>
+		<br></br>
+		<footer>
+    		<% include partials/footer %>
+		</footer>
+	</body>
+</html> 
+

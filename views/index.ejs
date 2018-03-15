@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title> <%=title%> </title>
+
+		<% include partials/head %>
+
+		<script src="/socket.io/socket.io.js"></script>
+
+		<script>
+			var idListe = "demo";
+			// On ecoute le post websocket
+			var socket = io.connect('http://localhost:8080');
+
+			// On demande le pseudo au visiteur...
+			var pseudo = "<%= username %>" ;
+			var personas = "<%= usersConnecte %>";
+			var cifreUsers = <%= nombreUsers %>;
+
+			// Et on l'envoie avec le signal "petit_nouveau" (pour le différencier de "message")
+			socket.emit('petit_nouveau', pseudo);
+
+			// On affiche une boîte de dialogue quand le serveur nous envoie un "message"
+			socket.on('message', function(message, idUL) {
+				//alert('Le serveur a un message pour vous : ' + message);
+				//document.getElementById("demo").innerHTML = message;
+				console.log("ID de la Liste : " + idUL);
+				
+
+				if(idUL === undefined)
+				{
+					var node = document.createElement("li");
+					node.setAttribute("class", "list-group-item text-dark list-group-item-warning");
+					var text = document.createTextNode(message);
+					node.appendChild(text);
+					
+					document.getElementById("demo").appendChild(node);
+
+					
+					if (cifreUsers === 0) {
+						console.log("TU es SEul");
+						var node = document.createElement("li");
+						node.setAttribute("class", "list-group-item text-dark list-group-item-danger");
+						var text = document.createTextNode("Tu es tout(e) seul(e) :'V");
+						node.appendChild(text);
+						document.getElementById("demo").appendChild(node);
+						cifreUsers++;
+					}
+				}
+				else
+				{
+
+					//document.getElementById(idUL).appendChild(node);
+					//socket.emit('message', message, idUL);
+
+					var node = document.createElement("li");
+					node.setAttribute("class", "list-group-item");
+					var text = document.createTextNode(message);
+					node.appendChild(text);
+
+		    		document.getElementById(idUL).appendChild(node);
+				}
+	    		
+			});
+
+			//socket.on('message', function(message) {
+			//	alert('Le serveur a un message pour vous : ' + message);
+			//});
+
+			function sendMessage(lis, text)
+			{
+				console.log("ID de la Liste Commentaire : "+lis);
+				trouveIDliste(lis);
+
+				message = document.getElementById(text).value;
+				if (message ==="")
+				{
+					console.log("Il n'y a aucune message");
+				}
+				else
+				{
+					socket.emit('message', message, lis);
+
+				var node = document.createElement("li");
+				node.setAttribute("class", "list-group-item text-dark");
+				var text = document.createTextNode( "Moi : "+message);
+				node.appendChild(text);
+
+	    		document.getElementById(idListe).appendChild(node);
+				}
+			};
+
+			function trouveIDliste(idl)
+			{
+				idListe = idl;
+			}
+		</script>
+
+	</head>
+	
+	<body>
+		<div class="bg-dark text-white">
+			<h1 class="display-2 text-center">Bonjour <%= username %></h1>
+			<div class="row">
+				<div class="col-sm bg-dark text-white">
+					<ul id="demo" class="list-group">
+						<li class="list-group-item text-center list-group-item-secondary">NOTIFICATIONS</li>
+						<% usersConnecte.forEach(function(result){ %>
+        					<li class="list-group-item list-group-item-success"><%= result %> est connecte :D</li>
+    					<%  }); %>
+					</ul>
+				</div>
+				<div class="col-sm bg-secondary text-white">
+					<%- html %>
+				</div>
+				<div class="col bg-dark text-white">
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html> 
+
