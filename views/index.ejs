@@ -22,15 +22,14 @@
 
 			// On affiche une boîte de dialogue quand le serveur nous envoie un "message"
 			socket.on('message', function(message, idUL) {
-				//alert('Le serveur a un message pour vous : ' + message);
-				//document.getElementById("demo").innerHTML = message;
+				
 				console.log("ID de la Liste : " + idUL);
 				
 
 				if(idUL === undefined)
 				{
 					var node = document.createElement("li");
-					node.setAttribute("class", "list-group-item text-dark list-group-item-warning");
+					node.setAttribute("class", "list-group-item text-dark");
 					var text = document.createTextNode(message);
 					node.appendChild(text);
 					
@@ -40,7 +39,7 @@
 					if (cifreUsers === 0) {
 						console.log("TU es SEul");
 						var node = document.createElement("li");
-						node.setAttribute("class", "list-group-item text-dark list-group-item-danger");
+						node.setAttribute("class", "list-group-item text-dark list-group-item-info");
 						var text = document.createTextNode("Tu es tout(e) seul(e) :'V");
 						node.appendChild(text);
 						document.getElementById("demo").appendChild(node);
@@ -49,10 +48,6 @@
 				}
 				else
 				{
-
-					//document.getElementById(idUL).appendChild(node);
-					//socket.emit('message', message, idUL);
-
 					var node = document.createElement("li");
 					node.setAttribute("class", "list-group-item");
 					var text = document.createTextNode(message);
@@ -62,10 +57,6 @@
 				}
 	    		
 			});
-
-			//socket.on('message', function(message) {
-			//	alert('Le serveur a un message pour vous : ' + message);
-			//});
 
 			function sendMessage(lis, text)
 			{
@@ -94,6 +85,12 @@
 			{
 				idListe = idl;
 			}
+			function deconection(userN)
+			{
+				console.log('Chao '+ userN);
+				socket.emit('aurevoir', userN);
+				
+			}
 		</script>
 
 	</head>
@@ -101,6 +98,7 @@
 	<body>
 		<div class="bg-dark text-white">
 			<h1 class="display-2 text-center">Bonjour <%= username %></h1>
+			
 			<div class="row">
 				<div class="col-sm bg-dark text-white">
 					<ul id="demo" class="list-group">
@@ -114,7 +112,9 @@
 					<%- html %>
 				</div>
 				<div class="col bg-dark text-white">
-					
+					<form action="/accueil" method="GET">
+						<button id="xxx" type="submit" class="btn btn-secondary btn-block" onclick="deconection('<%= username %>')"> Deconnexion </button>
+					</form>
 				</div>
 			</div>
 		</div>
