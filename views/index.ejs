@@ -98,7 +98,9 @@
 	<body>
 		<div class="bg-dark text-white">
 			<h1 class="display-2 text-center">Bonjour <%= username %></h1>
-			
+			<form action="/accueil" method="GET">
+				<button id="xxx" type="submit" class="btn btn-secondary btn-block" onclick="deconection('<%= username %>')"> Deconnexion </button>
+			</form>
 			<div class="row">
 				<div class="col-sm bg-dark text-white">
 					<ul id="demo" class="list-group">
@@ -112,9 +114,7 @@
 					<%- html %>
 				</div>
 				<div class="col bg-dark text-white">
-					<form action="/accueil" method="GET">
-						<button id="xxx" type="submit" class="btn btn-secondary btn-block" onclick="deconection('<%= username %>')"> Deconnexion </button>
-					</form>
+					
 				</div>
 			</div>
 		</div>
